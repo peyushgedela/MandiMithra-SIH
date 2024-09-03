@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "test-app-1",
+    "name": "Testing App 1",
     "slug": "test-app-1",
+    "scheme": "test-app-1",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,6 +23,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": ["expo-router"]
   }
 }

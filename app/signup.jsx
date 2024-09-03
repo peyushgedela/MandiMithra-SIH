@@ -1,0 +1,14 @@
+import { Text, View } from "react-native";
+import React from "react";
+import { Link } from "expo-router";
+
+const signup = () => {
+  return (
+    <View className="flex-1 justify-center items-center bg-green-500">
+      <Text className="text-3xl">signup</Text>
+      <Link href={"/"}>Login Here</Link>
+    </View>
+  );
+};
+
+export default signup;
