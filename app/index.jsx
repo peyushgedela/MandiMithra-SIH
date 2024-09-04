@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 import React from "react";
 import { Link } from "expo-router";
+import LandingButton from "../components/LandingButton";
 
 const index = () => {
   return (
@@ -9,6 +10,7 @@ const index = () => {
       <Link className="text-blue-600" href={"/page1"}>
         Go to Home
       </Link>
+      <LandingButton />
     </View>
   );
 };
