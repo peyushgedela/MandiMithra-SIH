@@ -2,8 +2,8 @@ import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
-import AuthInputs from "../components/AuthInputs";
-import Icon from 'react-native-vector-icons/FontAwesome';  // Import FontAwesome icon set
+import AuthInputs from "../../components/AuthInputs";
+import Icon from "react-native-vector-icons/FontAwesome"; // Import FontAwesome icon set
 
 const signin = () => {
   const [form, setForm] = useState({
@@ -11,8 +11,8 @@ const signin = () => {
     password: "",
   });
 
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
 
   const handlePhoneChange = (value) => {
     setPhoneNumber(value);
@@ -29,25 +29,25 @@ const signin = () => {
           <Text className="text-3xl font-mbold">Welcome Back!</Text>
 
           <SafeAreaView>
-            <AuthInputs 
-              onChangeText={handlePhoneChange} 
-              className="text-2xl" 
-              placeholder="Phone Number" 
-              keyboardType="phone-pad" 
+            <AuthInputs
+              onChangeText={handlePhoneChange}
+              className="text-2xl"
+              placeholder="Phone Number"
+              keyboardType="phone-pad"
               value={phoneNumber}
-              icon={<Icon name="phone" size={20} color="#000" />}  // Use FontAwesome phone icon
+              icon={<Icon name="phone" size={20} color="#000" />} // Use FontAwesome phone icon
               title="phone"
             />
-            
-            <AuthInputs 
-              onChangeText={handlePasswordChange} 
-              className="text-2xl" 
-              placeholder="Password" 
-              keyboardType="default" 
+
+            <AuthInputs
+              onChangeText={handlePasswordChange}
+              className="text-2xl"
+              placeholder="Password"
+              keyboardType="default"
               value={password}
-              icon={<Icon name="lock" size={20} color="#000" />}  // Use FontAwesome lock icon
+              icon={<Icon name="lock" size={20} color="#000" />} // Use FontAwesome lock icon
               title="password"
-            />    
+            />
           </SafeAreaView>
 
           <View className="font-mregular">
@@ -63,4 +63,3 @@ const signin = () => {
 };
 
 export default signin;
-

@@ -7,13 +7,13 @@ const LandingButton = (props) => {
   return (
     <View>
       <TouchableOpacity
-        className="flex items-center justify-center font-mbold"
+        className="flex items-center justify-center"
         style={[styles.button, { backgroundColor: color }]} // Apply dynamic color
         onPress={() => {
           router.push(onPressDestination);
         }} // Dynamic routing
       >
-        <Text className="" style={styles.text}>
+        <Text className="font-mregular text-xs" style={styles.text}>
           {name}
         </Text>
       </TouchableOpacity>

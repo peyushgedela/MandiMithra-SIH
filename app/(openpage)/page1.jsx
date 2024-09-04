@@ -14,14 +14,16 @@ export class Page1 extends Component {
             Skip
           </Link>
         </View>
-        <View className="basis-8/12 flex flex-col items-center w-11/12">
-          <View className="basis-2/5 flex items-end">
-            <Text className="text-4xl font-mbold">Sell Crop</Text>
+        <View className="basis-8/12 flex flex-col items-center">
+          <View className="basis-2/5 flex mt-12 items-center justify-center">
+            <Text className="text-4xl font-mbold">Sell at Assured Prices</Text>
           </View>
-          <Text className="basis-3/5 font-mlight">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-            sint. Velit officia consequat duis enim velit mollit.
-          </Text>
+          <View className="basis-3/5">
+            <Text className="font-mlight">
+              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
+              amet sint. Velit officia consequat duis enim velit mollit.
+            </Text>
+          </View>
         </View>
         <View className="basis-1/12 flex items-center">
           <View className="w-3/4">

@@ -15,6 +15,11 @@ const index = () => {
             color="#8B4513"
             onPressDestination="/page1"
           />
+          <LandingButton
+            name="HomePage"
+            color="#8B4"
+            onPressDestination="/home"
+          />
         </View>
       </View>
     </View>

@@ -14,27 +14,33 @@ export class Page2 extends Component {
             Skip
           </Link>
         </View>
-        <View className="basis-8/12 flex flex-col items-center w-11/12">
-          <View className="basis-2/5 flex items-end">
-            <Text className="text-4xl font-mbold">Buy Crop</Text>
+        <View className="basis-8/12 flex flex-col items-center">
+          <View className="basis-2/5 flex mt-12 items-center justify-center">
+            <Text className="text-4xl font-mbold">Contract-Based System</Text>
           </View>
-          <Text className="basis-3/5 font-mlight">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-            sint. Velit officia consequat duis enim velit mollit.
-          </Text>
+          <View className="basis-3/5">
+            <Text className="font-mlight">
+              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
+              amet sint. Velit officia consequat duis enim velit mollit.
+            </Text>
+          </View>
         </View>
         <View className="basis-1/12 flex items-center">
           <View className="w-3/4 flex flex-row justify-between">
-            <LandingButton
-              name="Previous"
-              color="#8B4"
-              onPressDestination="/page1"
-            />
-            <LandingButton
-              name="Next"
-              color="#8B4513"
-              onPressDestination="/page3"
-            />
+            <View className="w-1/3">
+              <LandingButton
+                name="Previous"
+                color="#8B4"
+                onPressDestination="/page1"
+              />
+            </View>
+            <View className="w-1/3">
+              <LandingButton
+                name="Next"
+                color="#8B4513"
+                onPressDestination="/page3"
+              />
+            </View>
           </View>
         </View>
       </SafeAreaView>
