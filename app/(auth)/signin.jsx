@@ -28,7 +28,7 @@ const signin = () => {
             customStyles= "my-4 "
             keyboardType="phone-pad"
             value={phoneNumber}
-            icon={<Icon name="phone" size={20} color="#000" />}
+            icon={<Icon name="user" size={20} color="#000" />}
             title="phone"
           />
 
@@ -51,14 +51,14 @@ const signin = () => {
           <LandingButton
             name="Login"
             color="#D49A42" 
-            onPressDestination="/signup" 
+            onPressDestination="/home" 
           />
         </View>
 
         <View className="flex-row justify-center mt-4">
           <Text className="text-gray-600 font-mregular">Don't have an account?</Text>
           <Link href="/signup" className="text-[#D49A42] ml-1">
-            <Text className="font-mregular">Sign In</Text>
+            <Text className="font-mregular">Sign Up</Text>
           </Link>
         </View>
 
