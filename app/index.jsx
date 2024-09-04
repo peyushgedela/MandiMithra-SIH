@@ -1,16 +1,22 @@
 import { Text, View } from "react-native";
 import React from "react";
-import { Link } from "expo-router";
 import LandingButton from "../components/LandingButton";
 
 const index = () => {
   return (
-    <View className="flex-1 items-center justify-center bg-amber-200">
-      <Text className="text-4xl font-mlight">Welcome to MandiMitra</Text>
-      <Link className="text-blue-600" href={"/page1"}>
-        Go to Home
-      </Link>
-      <LandingButton />
+    <View className="flex flex-col bg-amber-200">
+      <View className="basis-3/4 items-center justify-center">
+        <Text className="text-4xl font-mlight">Welcome to MandiMitra</Text>
+      </View>
+      <View className="flex items-center basis-1/4 mt-4">
+        <View className="w-3/4">
+          <LandingButton
+            name="Get Started"
+            color="#8B4513"
+            onPressDestination="/page1"
+          />
+        </View>
+      </View>
     </View>
   );
 };

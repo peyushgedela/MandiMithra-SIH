@@ -10,6 +10,7 @@ const Home = () => {
       <Link href={"/farmerhome"}>FarmerHome</Link>
       <View></View>
       <Text>Footer</Text>
+      <Link href={"/index"}>Go home</Link>
     </View>
   );
 };
