@@ -18,7 +18,7 @@ export class Page1 extends Component {
           <View className="basis-2/5 flex mt-12 items-center justify-center">
             <Text className="text-4xl font-mbold">Sell at Assured Prices</Text>
           </View>
-          <View className="basis-3/5">
+          <View className="basis-3/5 w-11/12">
             <Text className="font-mlight">
               Amet minim mollit non deserunt ullamco est sit aliqua dolor do
               amet sint. Velit officia consequat duis enim velit mollit.
