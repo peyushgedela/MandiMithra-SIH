@@ -1,62 +1,67 @@
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
 import AuthInputs from "../../components/AuthInputs";
-import Icon from "react-native-vector-icons/FontAwesome"; // Import FontAwesome icon set
+import LandingButton from "../../components/LandingButton"; // Import LandingButton component
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const signin = () => {
-  const [form, setForm] = useState({
-    phoneNumber: "",
-    password: "",
-  });
-
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
 
-  const handlePhoneChange = (value) => {
-    setPhoneNumber(value);
-  };
-
-  const handlePasswordChange = (value) => {
-    setPassword(value);
-  };
+  const handlePhoneChange = (value) => setPhoneNumber(value);
+  const handlePasswordChange = (value) => setPassword(value);
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View>
-          <Text className="text-3xl font-mbold">Welcome Back!</Text>
+    <SafeAreaView className="flex-1 bg-white">
+      <ScrollView contentContainerStyle={{ padding: 16 }}>
 
-          <SafeAreaView>
-            <AuthInputs
-              onChangeText={handlePhoneChange}
-              className="text-2xl"
-              placeholder="Phone Number"
-              keyboardType="phone-pad"
-              value={phoneNumber}
-              icon={<Icon name="phone" size={20} color="#000" />} // Use FontAwesome phone icon
-              title="phone"
-            />
-
-            <AuthInputs
-              onChangeText={handlePasswordChange}
-              className="text-2xl"
-              placeholder="Password"
-              keyboardType="default"
-              value={password}
-              icon={<Icon name="lock" size={20} color="#000" />} // Use FontAwesome lock icon
-              title="password"
-            />
-          </SafeAreaView>
-
-          <View className="font-mregular">
-            <Text>Don't have account</Text>
-            <Link href="/signup" className="text-orange-400">
-              SignUp
-            </Link>
-          </View>
+        <View className="mt-10 mb-6">
+          <Text className="text-4xl font-mbold text-black">Welcome Back!</Text>
         </View>
+
+        <View className="space-y-4">
+          <AuthInputs
+            onChangeText={handlePhoneChange}
+            placeholder="Phone Number"
+            customStyles= "my-4 "
+            keyboardType="phone-pad"
+            value={phoneNumber}
+            icon={<Icon name="phone" size={20} color="#000" />}
+            title="phone"
+          />
+
+          <AuthInputs
+            onChangeText={handlePasswordChange}
+            placeholder="Password"
+            customStyles= "my-4"
+            keyboardType="default"
+            value={password}
+            icon={<Icon name="lock" size={20} color="#000" />}
+            title="password"
+          />
+        </View>
+
+        <View className="flex items-end mt-2 mb-8">
+          <Text className="text-[#D49A42] text-sm font-mregular">Forgot Password?</Text>
+        </View>
+
+        <View className="mt-6">
+          <LandingButton
+            name="Login"
+            color="#D49A42" 
+            onPressDestination="/signup" 
+          />
+        </View>
+
+        <View className="flex-row justify-center mt-4">
+          <Text className="text-gray-600 font-mregular">Don't have an account?</Text>
+          <Link href="/signup" className="text-[#D49A42] ml-1">
+            <Text className="font-mregular">Sign In</Text>
+          </Link>
+        </View>
+
       </ScrollView>
     </SafeAreaView>
   );
