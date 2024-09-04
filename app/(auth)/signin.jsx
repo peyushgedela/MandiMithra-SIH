@@ -1,23 +1,19 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import InputBox from "../../components/InputBox";
-import CustomButton from "../../components/CustomButton";
+import { Link } from "expo-router";
 
 const signin = () => {
-  const [form,setForm] = useState(
-    {
+  const [form, setForm] = useState({
+    phoneNumber: "",
+    password: "",
+  });
 
-      phoneNumber: "",
-      password: "",
-    }
-  )
+  const [isVisible, setVisible] = useState(true);
 
-  const[isSubmitting,setisSubmitting] = useState(false);
+  const [isSubmitting, setisSubmitting] = useState(false);
 
-  const submit=() => {
-
-  }
+  const submit = () => {};
 
   return (
     <SafeAreaView>
@@ -25,31 +21,38 @@ const signin = () => {
         <View>
           <Text className="text-3xl font-mbold">Welcome Back!</Text>
 
-          <InputBox
-            title="phoneNumber"
-            value={form.phoneNumber}
-            handleChangeText={(e) => setFormValue({...form,phoneNumber : e})}
-            otherStyles={"mt-7"}
-            keyboardType="phone-pad"
-          ></InputBox>
+          <SafeAreaView>
+            <TextInput
+              onChangeText={(e) => {
+                setForm({ ...form, phoneNumber: e });
+              }}
+              placeholder="Phone Number"
+              keyboardType="numeric"
+            />
+          </SafeAreaView>
 
-          <InputBox
-            title="Password"
-            value={form.password}
-            handleChangeText={(e) => setFormValue({...form,password : e})}
-            otherStyles={"mt-7"}
-          />
-
-          <CustomButton
-            title="Sign-In"
-            handlePress = {submit}
-            containerStyle="mt-7"
-            isLoading = {!isSubmitting}
-          />
+          <SafeAreaView>
+            <TextInput
+              secureTextEntry={isVisible}
+              onChangeText={(e) => {
+                setForm({ ...form, password: e });
+              }}
+              placeholder="Password"
+            />
+            <Text
+              onPress={() => {
+                setVisible(!isVisible);
+              }}
+            >
+              {isVisible ? "Show Pass" : "Hide Pass"}
+            </Text>
+          </SafeAreaView>
 
           <View className="font-mregular">
             <Text>Don't have account</Text>
-            <Link href="/singup" className="text-orange-400">SignUp</Link>
+            <Link href="/signup" className="text-orange-400">
+              SignUp
+            </Link>
           </View>
         </View>
       </ScrollView>

@@ -22,6 +22,7 @@ const RootLayout = () => {
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: true }} />
       <Stack.Screen name="(auth)" options={{ headerShown: true }} />
+      <Stack.Screen name="(openpage)" options={{ headerShown: true }} />
       <Stack.Screen name="index" options={{ headerShown: true }} />
     </Stack>
   );
