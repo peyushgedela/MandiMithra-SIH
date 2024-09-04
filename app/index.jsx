@@ -12,7 +12,7 @@ const index = () => {
         <View className="w-3/4">
           <LandingButton
             name="Get Started"
-            color="#8B4513"
+            color="#D49A42"
             onPressDestination="/page1"
           />
           <LandingButton

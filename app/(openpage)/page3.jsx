@@ -27,14 +27,14 @@ export class Page3 extends Component {
             <View className="w-1/3">
               <LandingButton
                 name="Previous"
-                color="#8B4"
+                color="#88C431"
                 onPressDestination="/page2"
               />
             </View>
             <View className="w-1/3">
               <LandingButton
                 name="Let's Go!"
-                color="#8B4513"
+                color="#D49A42"
                 onPressDestination="/signin"
               />
             </View>
