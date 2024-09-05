@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <SafeAreaView className="flex flex-col" style={styles.container}>
       <Header className="basis-1/12" />
-      <MainNav className="basis-2/12" />
+      <MainNav className="basis-2/12" name="buyer" />
     </SafeAreaView>
   );
 };
