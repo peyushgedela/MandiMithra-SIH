@@ -19,68 +19,72 @@ const signup = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <ScrollView contentContainerStyle={{ padding: 16 }}>
+      <ScrollView >
+        <View className="w-full justify-center min-h-[55vh] px-4 my-6">
+          <View className="mt-10 mb-6">
+            <Text className="text-4xl font-mbold text-black">Create an Account</Text>
+          </View>
 
-        <View className="mt-10 mb-6">
-          <Text className="text-4xl font-mbold text-black">Create an Account</Text>
-        </View>
-
-        <View className="space-y-4">
-        <AuthInputs
-            onChangeText={handleFullNameChange}
-            placeholder="Full Name"
-            customStyles= "my-3"
-            value={fullName}
-            icon={<Icon name="user" size={20} color="#000" />}
-            title="phone"
-          />
-
+          <View className="space-y-4">
           <AuthInputs
-            onChangeText={handlePhoneChange}
-            placeholder="Phone Number"
-            customStyles= "my-3"
-            keyboardType="phone-pad"
-            value={phoneNumber}
-            icon={<Icon name="phone" size={20} color="#000" />}
-            title="phone"
-          />
+              onChangeText={handleFullNameChange}
+              placeholder="Full Name"
+              customStyles= "my-3"
+              value={fullName}
+              icon={<Icon name="user" size={20} color="#000" />}
+              title="phone"
+            />
 
-          <AuthInputs
-            onChangeText={handlePasswordChange}
-            placeholder="Password"
-            customStyles= "my-3"
-            keyboardType="default"
-            value={password}
-            icon={<Icon name="lock" size={20} color="#000" />}
-            title="password"
-          />
+            <AuthInputs
+              onChangeText={handlePhoneChange}
+              placeholder="Phone Number"
+              customStyles= "my-3"
+              keyboardType="phone-pad"
+              value={phoneNumber}
+              icon={<Icon name="phone" size={20} color="#000" />}
+              title="phone"
+            />
 
-          <AuthInputs
-            onChangeText={handleConfirmPasswordChange}
-            placeholder="Confirm Password"
-            customStyles= "my-3"
-            keyboardType="default"
-            value={confirmPassword}
-            icon={<Icon name="lock" size={20} color="#000" />}
-            title="password"
-          />
+            <AuthInputs
+              onChangeText={handlePasswordChange}
+              placeholder="Password"
+              customStyles= "my-3"
+              keyboardType="default"
+              value={password}
+              icon={<Icon name="lock" size={20} color="#000" />}
+              title="password"
+            />
+
+            <AuthInputs
+              onChangeText={handleConfirmPasswordChange}
+              placeholder="Conform Password"
+              customStyles= "my-3"
+              keyboardType="default"
+              value={confirmPassword}
+              icon={<Icon name="lock" size={20} color="#000" />}
+              title="password"
+            />
+          </View>
+
+          <View className="flex mt-2 mb-2">
+            <Text className="text-gray-600 text-xs font-mregular mt-3">By clicking the{" "} <Text>Register</Text>{" "}you agree to the terms and conditions</Text>
+          </View>
+
+          <View className="mt-6">
+            <LandingButton
+              name="Create Account"
+              color="#D49A42" 
+              onPressDestination="/create_otp" 
+            />
+          </View>
+
+          <View className="flex-row justify-center mt-4">
+            <Text className="text-gray-600 font-mregular">Already have an account?</Text>
+            <Link href="/signin" className="text-[#D49A42] ml-1">
+              <Text className="font-mregular">Sign In</Text>
+            </Link>
+          </View>
         </View>
-
-        <View className="mt-6">
-          <LandingButton
-            name="Create Account"
-            color="#D49A42" 
-            onPressDestination="/signin" 
-          />
-        </View>
-
-        <View className="flex-row justify-center mt-4">
-          <Text className="text-gray-600 font-mregular">Already have an account?</Text>
-          <Link href="/signin" className="text-[#D49A42] ml-1">
-            <Text className="font-mregular">Sign In</Text>
-          </Link>
-        </View>
-
       </ScrollView>
     </SafeAreaView>
   );

@@ -17,7 +17,7 @@ const AuthInputs = ({
     <View className={`flex-row items-center w-full bg-[#f3f3f3] border border-[#a8a8a9] h-14 rounded-md ${customStyles}`}>
       <View className="pl-2">{icon}</View>
       <TextInput
-        className="flex-1 pl-2 text-base text-gray-700"
+        className="flex-1 pl-2 text-base text-[#676767] font-mregular"
         onChangeText={onChangeText}
         value={value}
         placeholder={placeholder}
