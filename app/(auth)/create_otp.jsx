@@ -5,7 +5,7 @@ import { Link } from "expo-router";
 import LandingButton from "../../components/LandingButton";
 
 const create_otp = () => {
-  const [otp, setOtp] = useState(["", "", "", "", ""]);
+  const [otp, setOtp] = useState(["", "", "", "", "",""]);
   const inputs = useRef([]);
 
   const handleOtpChange = (value, index) => {
@@ -13,7 +13,7 @@ const create_otp = () => {
     otpCopy[index] = value;
 
     // Move to the next input if a digit is entered
-    if (value.length === 1 && index < 4) {
+    if (value.length === 1 && index < 5) {
       inputs.current[index + 1].focus();
     }
 
@@ -22,17 +22,29 @@ const create_otp = () => {
   };
 
   const handleKeyPress = (event, index) => {
-    if (event.nativeEvent.key === "Backspace") {
+    const key = event.nativeEvent.key;
+
+    if (key === "Backspace") {
+      const otpCopy = [...otp];
+      
       if (otp[index] === "" && index > 0) {
+        // Move to the previous input if the current one is empty
         inputs.current[index - 1].focus();
+        otpCopy[index - 1] = ""; // Clear the previous input
+        setOtp(otpCopy);
       } else {
-        const otpCopy = [...otp];
+        // Clear current input and remain in the current box
         otpCopy[index] = "";
         setOtp(otpCopy);
-        if (index > 0) {
-          inputs.current[index - 1].focus();
-        }
       }
+    }
+  };
+
+  const handleFocus = (index) => {
+    // Focus on the first empty field when any box is clicked
+    const firstEmptyIndex = otp.findIndex((value) => value === "");
+    if (firstEmptyIndex !== -1 && firstEmptyIndex !== index) {
+      inputs.current[firstEmptyIndex].focus();
     }
   };
 
@@ -42,11 +54,11 @@ const create_otp = () => {
         <View className="w-full justify-center min-h-[70vh] px-4 mt-6 mb-10">
           <View className="mt-10 mb-6">
             <Text className="text-4xl font-mbold text-black">
-            Enter OTP to{"\n"}Verify Number
+              Enter OTP to{"\n"}Verify Number
             </Text>
           </View>
 
-
+          {/* OTP Input Fields */}
           <View className="flex-row justify-around space-x-2">
             {otp.map((_, index) => (
               <TextInput
@@ -58,17 +70,17 @@ const create_otp = () => {
                 keyboardType="numeric"
                 className="border-b-2 border-gray-800 w-12 h-12 text-center text-2xl"
                 onKeyPress={(event) => handleKeyPress(event, index)}
+                onFocus={() => handleFocus(index)} // Focus handling logic adjusted
               />
             ))}
           </View>
 
           <View className="flex mt-2 mb-2">
-            <Text className="text-[#676767] text-xs font-mregular mt-3">
-              OTP will be received to the registered phone number.{"\n"}
-              To Resend the OTP click here{"\n"}
+            <Text className="text-gray-600 font-mregular mt-3 mb-5">
+              Didn't recieve OTP?{" "}
             </Text>
-            <Link href="/forget_otp" className="text-[#D49A42] ml-1">
-              <Text className="font-mregular">Resend OTP?</Text>
+            <Link href="/" className="text-[#D49A42] ml-1">
+              <Text className="font-mregular">Resend OTP</Text>
             </Link>
           </View>
 
