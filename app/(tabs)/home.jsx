@@ -1,20 +1,22 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
-import { Link } from "expo-router";
+import Header from "../../components/Header";
+import { SafeAreaView } from "react-native-safe-area-context";
+import MainNav from "../../components/MainNav";
 
 const Home = () => {
   return (
-    <View className="flex-1 items-center justify-center">
-      <Text>Header</Text>
-      <Link href={"/home"}>BuyerHome</Link>
-      <Link href={"/farmerhome"}>FarmerHome</Link>
-      <View></View>
-      <Text>Footer</Text>
-      <Link href={"/index"}>Go home</Link>
-    </View>
+    <SafeAreaView className="flex flex-col" style={styles.container}>
+      <Header className="basis-1/12" />
+      <MainNav className="basis-2/12" />
+    </SafeAreaView>
   );
 };
 
 export default Home;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#fff8dc",
+  },
+});
