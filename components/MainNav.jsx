@@ -27,7 +27,7 @@ const MainNav = (e) => {
           style={[styles.button, { backgroundColor: colbuy }]}
           onPress={() => {
             if (name == "farmer") {
-              router.push("/home");
+              router.replace("/home");
             }
           }} // Dynamic routing
         >
@@ -41,7 +41,7 @@ const MainNav = (e) => {
           className="flex items-center justify-center"
           style={[styles.button, { backgroundColor: colfar }]}
           onPress={() => {
-            if (name == "buyer") router.push("/farmerhome");
+            if (name == "buyer") router.replace("/farmerhome");
           }} // Dynamic routing
         >
           <Text className="font-mbold text-base" style={{ color: coltfar }}>
