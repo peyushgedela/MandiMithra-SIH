@@ -18,7 +18,7 @@ const signin = () => {
       <ScrollView>
         <View className="w-full justify-center min-h-[85vh] px-4 my-6">
           <View className="mt-10 mb-6">
-            <Text className="text-4xl font-mbold text-black">Welcome Back!</Text>
+            <Text className="text-4xl font-mbold text-black">Welcome{"\n"}Back!</Text>
           </View>
 
           <View className="space-y-4">

@@ -57,7 +57,7 @@ const signup = () => {
 
             <AuthInputs
               onChangeText={handleConfirmPasswordChange}
-              placeholder="Conform Password"
+              placeholder="Confirm Password"
               customStyles= "my-3"
               keyboardType="default"
               value={confirmPassword}
