@@ -1,10 +1,20 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, Alert, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
 import AuthInputs from "../../components/AuthInputs";
 import LandingButton from "../../components/LandingButton"; // Import LandingButton component
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Client, Account, Databases, Query } from 'appwrite';
+
+const client = new Client()
+    .setEndpoint('https://cloud.appwrite.io/v1')  // Your Appwrite endpoint
+    .setProject('66daed2200046405b1ce');
+
+const account = new Account(client);
+const databases = new Databases(client);
+const COLLECTION_ID = '66daf29c003d7e24f3c9';
+const DATABASE_ID = '66daf292001f9eb48e88';
 
 const signin = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -12,6 +22,43 @@ const signin = () => {
 
   const handlePhoneChange = (value) => setPhoneNumber(value);
   const handlePasswordChange = (value) => setPassword(value);
+
+  const handleLogin = async () => {
+    try {
+        // Log before making the query
+        console.log('Attempting to query the database...');
+
+        // Query the database for a user with the matching phone number and password
+        const result = await databases.listDocuments(
+            DATABASE_ID,  // Your database ID
+            COLLECTION_ID,  // Your collection ID
+            [
+                // Search for a document where phoneNumber and password match the input
+                Query.equal('phonenumber', phoneNumber),
+                Query.equal('password', password)
+            ]
+        );
+
+        // Log the raw result object
+        console.log('Query Result:', result);
+
+        // Check if a document is found
+        if (result.documents && result.documents.length > 0) {
+            // If found, user credentials are valid
+            Alert.alert('Success', 'Successfully logged in!');
+            console.log('User logged in successfully.');
+        } else {
+            // No matching document found, prompt to create an account
+            Alert.alert('Error', 'User not found. Please register a new account.');
+            console.log('No user found with matching phone number and password.');
+            navigation.navigate('RegisterScreen');
+        }
+    } catch (error) {
+        // Log and display error
+        console.log('Error querying the database:', error);
+        Alert.alert('Error', error.message);
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -56,6 +103,7 @@ const signin = () => {
               className="flex p-4 items-center justify-center bg-[#D49A42]"
               style={styles.button}
               onPress={() => {
+                handleLogin()
                 router.replace("/home");
               }}
             >
