@@ -1,11 +1,11 @@
-import { ScrollView, Text, View, TextInput } from "react-native";
+import { ScrollView, Text, View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import LandingButton from "../../components/LandingButton";
 
 const create_otp = () => {
-  const [otp, setOtp] = useState(["", "", "", "", "",""]);
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const inputs = useRef([]);
 
   const handleOtpChange = (value, index) => {
@@ -26,7 +26,7 @@ const create_otp = () => {
 
     if (key === "Backspace") {
       const otpCopy = [...otp];
-      
+
       if (otp[index] === "" && index > 0) {
         // Move to the previous input if the current one is empty
         inputs.current[index - 1].focus();
@@ -85,16 +85,29 @@ const create_otp = () => {
           </View>
 
           <View className="mt-6">
-            <LandingButton
-              name="Submit OTP"
-              color="#D49A42"
-              onPressDestination="/signin"
-            />
+            <TouchableOpacity
+              className="flex p-4 items-center justify-center bg-[#D49A42]"
+              style={styles.button}
+              onPress={() => {
+                router.replace("/signin");
+              }}
+            >
+              <Text className="font-mregular text-xs text-white">
+                Verify OTP
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    padding: 16,
+    borderRadius: 15,
+  },
+});
 
 export default create_otp;

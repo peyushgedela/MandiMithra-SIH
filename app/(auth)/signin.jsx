@@ -1,7 +1,7 @@
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import AuthInputs from "../../components/AuthInputs";
 import LandingButton from "../../components/LandingButton"; // Import LandingButton component
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -18,14 +18,16 @@ const signin = () => {
       <ScrollView>
         <View className="w-full justify-center min-h-[85vh] px-4 my-6">
           <View className="mt-10 mb-6">
-            <Text className="text-4xl font-mbold text-black">Welcome{"\n"}Back!</Text>
+            <Text className="text-4xl font-mbold text-black">
+              Welcome{"\n"}Back!
+            </Text>
           </View>
 
           <View className="space-y-4">
             <AuthInputs
               onChangeText={handlePhoneChange}
               placeholder="Phone Number"
-              customStyles= "my-4 "
+              customStyles="my-4 "
               keyboardType="phone-pad"
               value={phoneNumber}
               icon={<Icon name="user" size={20} color="#000" />}
@@ -35,7 +37,7 @@ const signin = () => {
             <AuthInputs
               onChangeText={handlePasswordChange}
               placeholder="Password"
-              customStyles= "my-4"
+              customStyles="my-4"
               keyboardType="default"
               value={password}
               icon={<Icon name="lock" size={20} color="#000" />}
@@ -50,15 +52,21 @@ const signin = () => {
           </View>
 
           <View className="mt-3">
-            <LandingButton
-              name="Login"
-              color="#D49A42" 
-              onPressDestination="/home" 
-            />
+            <TouchableOpacity
+              className="flex p-4 items-center justify-center bg-[#D49A42]"
+              style={styles.button}
+              onPress={() => {
+                router.replace("/home");
+              }}
+            >
+              <Text className="font-mregular text-xs text-white">Login</Text>
+            </TouchableOpacity>
           </View>
 
           <View className="flex-row justify-center mt-4">
-            <Text className="text-[#676767] text-xs font-mregular">Don't have an account?</Text>
+            <Text className="text-[#676767] text-xs font-mregular">
+              Don't have an account?
+            </Text>
             <Link href="/signup" className="text-[#D49A42] ml-1">
               <Text className="font-mregular space-y-4">Sign Up</Text>
             </Link>
@@ -68,5 +76,12 @@ const signin = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    padding: 16,
+    borderRadius: 15,
+  },
+});
 
 export default signin;
