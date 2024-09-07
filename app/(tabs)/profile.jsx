@@ -1,8 +1,9 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { account } from "../appwrite";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const profile = () => {
 
@@ -12,9 +13,11 @@ const profile = () => {
       const user = await account.get();
       
       if (user) {
+        await AsyncStorage.removeItem('userSession'); // Clear session data
         // If the user is logged in, proceed to delete the session
         await account.deleteSession("current"); // Log out the current user session
         router.replace("/signin"); // Navigate to SignIn or login page after logout
+        Alert.alert('Success', 'Logged out successfully.');
       }
     } catch (error) {
       // Check if the error is due to the user being already logged out
