@@ -46,12 +46,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   buttonClicked: {
-    backgroundColor: "#4CBB17",
+    backgroundColor: "#008000",
     padding: 10,
     borderRadius: 10,
   },
   button: {
-    backgroundColor: "#EE4B2B",
+    backgroundColor: "#DC143C",
     padding: 10,
     borderRadius: 10,
   },

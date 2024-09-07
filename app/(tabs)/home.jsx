@@ -14,6 +14,7 @@ import FarmerCrops from "../../components/FarmerCrops";
 import BuyerBidding from "../../components/BuyerBidding";
 import FarmerBidding from "../../components/FarmerBidding";
 import Blogs from "../../components/Blogs";
+import Icons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Home = () => {
   const [activeInd, setActiveInd] = useState(0); // 0 for Buyer, 1 for Farmer
@@ -51,6 +52,7 @@ const Home = () => {
 
   const renderBottomNav = () => {
     if (activeInd === 0) {
+      // Buyer view
       return (
         <View className="flex flex-row" style={styles.bottomNavBuy}>
           <TouchableOpacity
@@ -59,33 +61,70 @@ const Home = () => {
             style={styles.navButton}
           >
             <View className="justify-center items-center">
-              <Icon name={"cart-shopping"} size={20} />
+              <Icon
+                name={"cart-shopping"}
+                size={20}
+                color={
+                  currentPage === "Buy" || !currentPage ? "#000000" : "#808080"
+                } // Change color based on selected page
+              />
             </View>
-            <Text className="font-mlight text-xs">Buy</Text>
+            <Text
+              className="font-mlight text-xs"
+              style={{
+                color:
+                  currentPage === "Buy" || !currentPage ? "#000000" : "#808080",
+              }} // Change text color as well
+            >
+              Buy
+            </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             className="basis-1/3 justify-center items-center"
             onPress={() => setCurrentPage("Bidding")}
             style={styles.navButton}
           >
             <View className="justify-center items-center">
-              <Icon name={"hand"} size={20} />
+              <Icon
+                name={"hand"}
+                size={20}
+                color={currentPage === "Bidding" ? "#000000" : "#808080"}
+              />
             </View>
-            <Text className="font-mlight text-xs">Biddings</Text>
+            <Text
+              className="font-mlight text-xs"
+              style={{
+                color: currentPage === "Bidding" ? "#000000" : "#808080",
+              }}
+            >
+              Biddings
+            </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             className="basis-1/3 justify-center items-center"
             onPress={() => setCurrentPage("Blogs")}
             style={styles.navButton}
           >
             <View className="justify-center items-center">
-              <Icon name={"book"} size={20} />
+              <Icon
+                name={"book"}
+                size={20}
+                color={currentPage === "Blogs" ? "#000000" : "#808080"}
+              />
             </View>
-            <Text className="font-mlight text-xs">Blogs</Text>
+            <Text
+              className="font-mlight text-xs"
+              style={{ color: currentPage === "Blogs" ? "#000000" : "#808080" }}
+            >
+              Blogs
+            </Text>
           </TouchableOpacity>
         </View>
       );
     } else {
+      // Farmer view
       return (
         <View className="flex flex-row" style={styles.bottomNavSell}>
           <TouchableOpacity
@@ -94,29 +133,69 @@ const Home = () => {
             style={styles.navButton}
           >
             <View className="justify-center items-center">
-              <Icon name={"plant-wilt"} size={20} />
+              <Icon
+                name={"plant-wilt"}
+                size={20}
+                color={
+                  currentPage === "Crops" || !currentPage
+                    ? "#000000"
+                    : "#808080"
+                }
+              />
             </View>
-            <Text className="font-mlight text-xs">Crops</Text>
+            <Text
+              className="font-mlight text-xs"
+              style={{
+                color:
+                  currentPage === "Crops" || !currentPage
+                    ? "#000000"
+                    : "#808080",
+              }}
+            >
+              Crops
+            </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             className="basis-1/3 justify-center items-center"
             onPress={() => setCurrentPage("Bidding")}
             style={styles.navButton}
           >
             <View className="justify-center items-center">
-              <Icon name={"hammer"} size={20} />
+              <Icons
+                name={"brightness-percent"}
+                size={25}
+                color={currentPage === "Bidding" ? "#000000" : "#808080"}
+              />
             </View>
-            <Text className="font-mlight text-xs">Bids</Text>
+            <Text
+              className="font-mlight text-xs"
+              style={{
+                color: currentPage === "Bidding" ? "#000000" : "#808080",
+              }}
+            >
+              Offers
+            </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             className="basis-1/3 justify-center items-center"
             onPress={() => setCurrentPage("Blogs")}
             style={styles.navButton}
           >
             <View className="justify-center items-center">
-              <Icon name={"book"} size={20} />
+              <Icon
+                name={"book"}
+                size={20}
+                color={currentPage === "Blogs" ? "#000000" : "#808080"}
+              />
             </View>
-            <Text className="font-mlight text-xs">Blogs</Text>
+            <Text
+              className="font-mlight text-xs"
+              style={{ color: currentPage === "Blogs" ? "#000000" : "#808080" }}
+            >
+              Blogs
+            </Text>
           </TouchableOpacity>
         </View>
       );

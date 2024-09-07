@@ -17,7 +17,7 @@ const Index = () => {
           console.log('User session found:', JSON.parse(storedSession));
           router.replace('/home'); // Redirect to home
         } else {
-          router.replace('/signin'); // Redirect to login if no session is found
+          router.replace('/page1'); // Redirect to login if no session is found
         }
       } catch (error) {
         console.log('Error checking login status:', error);

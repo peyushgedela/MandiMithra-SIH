@@ -3,7 +3,12 @@ import React from "react";
 import { Slot, Stack, Tabs } from "expo-router";
 
 const UserTypeLayout = () => {
-  return <Slot />;
+  return (
+    <Stack>
+      <Stack.Screen name={"home"} options={{ headerShown: false }} />
+      <Stack.Screen name={"profile"} options={{ headerShown: false }} />
+    </Stack>
+  );
 };
 
 export default UserTypeLayout;
