@@ -1,5 +1,6 @@
 import { Text, View } from "react-native";
 import React, { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { account } from "./appwrite"; // Import the Appwrite account object
 import { router } from "expo-router"; // Import the router for navigation
 
@@ -9,12 +10,18 @@ const Index = () => {
     // Check if the user is logged in
     const checkLoginStatus = async () => {
       try {
-        const user = await account.get(); // Fetch current user session
-        if (user) {
-          router.replace("/home"); // Navigate to HomePage if logged in
+        const storedSession = await AsyncStorage.getItem('userSession');
+  
+        if (storedSession) {
+          // User session exists, validate it or use it to keep the user logged in
+          console.log('User session found:', JSON.parse(storedSession));
+          router.replace('/home'); // Redirect to home
+        } else {
+          router.replace('/signin'); // Redirect to login if no session is found
         }
       } catch (error) {
-        router.replace("/page1"); // Navigate to Get Started page if not logged in
+        console.log('Error checking login status:', error);
+        router.replace('/signin'); // Redirect to login on error
       }
     };
 

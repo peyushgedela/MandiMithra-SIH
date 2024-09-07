@@ -1,12 +1,26 @@
-import { ScrollView, Text, View, TextInput } from "react-native";
+import { ScrollView, Text, View, TextInput,StyleSheet,TouchableOpacity, Alert } from "react-native";
 import React, { useState, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import LandingButton from "../../components/LandingButton";
+import { account,getUserID } from "../appwrite";
 
 const forget_otp = () => {
   const [otp, setOtp] = useState(["", "", "", "", "",""]);
   const inputs = useRef([]);
+
+  const confirmOTP = async () =>{
+    try {
+      const otpCode = otp.join("");
+      const userId=getUserID()
+      const session = await account.createSession(userId, otpCode);
+      Alert.alert('Success', 'OTP Verified...');
+      router.replace("/changePassword");
+
+  } catch (error) {
+      Alert.alert('Error', error.message);
+  }
+  }
 
   const handleOtpChange = (value, index) => {
     const otpCopy = [...otp];
@@ -86,17 +100,27 @@ const forget_otp = () => {
             </Link>
           </View>
 
-          <View className="mt-6">
-            <LandingButton
-              name="Submit OTP"
-              color="#D49A42"
-              onPressDestination="/changePassword"
-            />
+          <View className="mt-3">
+            <TouchableOpacity
+              className="flex p-4 items-center justify-center bg-[#D49A42]"
+              style={styles.button}
+              onPress={async () => {
+                confirmOTP()
+              }}
+            >
+              <Text className="font-mregular text-xs text-white">Submit OTP</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
+const styles = StyleSheet.create({
+  button: {
+    padding: 16,
+    borderRadius: 15,
+  },
+});
 
 export default forget_otp;

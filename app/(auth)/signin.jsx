@@ -7,6 +7,7 @@ import LandingButton from "../../components/LandingButton"; // Import LandingBut
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Query } from "appwrite";
 import { databases,COLLECTION_ID,DATABASE_ID } from "../appwrite";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const signin = () => {
@@ -37,6 +38,11 @@ const signin = () => {
 
         // Check if a document is found
         if (result.documents && result.documents.length > 0) {
+            // Successfully found the user
+            const user = result.documents[0];
+
+            // Store the user session or identifier in AsyncStorage
+            await AsyncStorage.setItem('userSession', JSON.stringify(user));
             // If found, user credentials are valid
             router.replace("/home");
             Alert.alert('Success', 'Successfully logged in!');
