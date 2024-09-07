@@ -15,16 +15,9 @@ import { Link, router } from "expo-router";
 import AuthInputs from "../../components/AuthInputs";
 import LandingButton from "../../components/LandingButton"; // Import LandingButton component
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Client, Account, ID, Databases } from 'appwrite';
+import { ID } from "appwrite";
+import { account,databases,COLLECTION_ID,DATABASE_ID,setUserID } from "../appwrite";
 
-const client = new Client()
-    .setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject('66daed2200046405b1ce');
-
-const account = new Account(client);
-const databases = new Databases(client);
-const COLLECTION_ID = '66daf29c003d7e24f3c9'
-const DATABASE_ID = '66daf292001f9eb48e88'
 
 const signup = () => {
   const [fullName, setfullName] = useState("");
@@ -55,6 +48,7 @@ const signup = () => {
       const token = await account.createPhoneToken(ID.unique(), "+91" + phoneNumber);
       console.log('Token sent to:', phoneNumber);
       setUserId(token.userId);
+      setUserID(token.userId);
       setIsOtpSent(true)
       Alert.alert('OTP Sent!', 'Please check your SMS for the OTP.');
     } catch (error) {
@@ -107,9 +101,9 @@ const signup = () => {
         const otpCode = otp.join("");
         const session = await account.createSession(userId, otpCode);
         Alert.alert('Success', 'User authenticated successfully! Redirecting to login screen...');
-        
         // Store user details in the database
         await storeUserDetails();
+        router.replace("/signin");
 
     } catch (error) {
         Alert.alert('Error', error.message);
@@ -262,7 +256,6 @@ const signup = () => {
               style={styles.button}
               onPress={() => {
                 confirmUser()
-                router.replace("/signin");
               }}
             >
               <Text className="font-mregular text-xs text-white">
