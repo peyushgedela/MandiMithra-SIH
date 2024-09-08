@@ -6,33 +6,33 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import images from "../constants/images";
 import { router } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome6";
+import { databases, DATABASE_ID, FARMERS_COLLECTON_ID, getUserID } from "../app/appwrite";
+import { Query } from "appwrite";
 
-const fcrops = [
-  {
-    name: "cabbage",
-    img: images.cabbage,
-  },
-  {
-    name: "cauliflower",
-    img: images.cauliflower,
-  },
-  {
-    name: "coffee",
-    img: images.coffee,
-  },
-  {
-    name: "tea",
-    img: images.tea,
-  },
-  {
-    name: "apple",
-    img: images.apple,
-  },
-];
+const getDocumentIdsByUserId = async (userId) => {
+  try {
+    const result = await databases.listDocuments(
+      DATABASE_ID,
+      FARMERS_COLLECTON_ID,
+      [Query.equal('userid', userId)]
+    );
+
+    if (result.documents && result.documents.length > 0) {
+      const documentIds = result.documents.map((doc) => doc.$id);
+      console.log(documentIds);
+      return documentIds;
+    } else {
+      throw new Error("User document not found.");
+    }
+  } catch (error) {
+    console.error("Error retrieving documentId:", error);
+    throw error;
+  }
+};
 
 const renderItem = ({ item }) => (
   <TouchableOpacity
@@ -54,6 +54,59 @@ const renderItem = ({ item }) => (
 );
 
 const FarmerCrops = () => {
+  const [userId, setUserId] = useState(null);
+  const [cropsData, setCropsData] = useState([]);
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const id = await getUserID();
+      setUserId(id);
+    };
+    fetchUserId();
+  }, []);
+
+  useEffect(() => {
+    const fetchAndRenderCrops = async () => {
+      if (userId) {
+        const cropNames = await fetchCropNameByDocumentId();
+        
+        const cropsWithImages = cropNames.map((name) => {
+          const imageName = name.toLowerCase(); // Convert crop name to lowercase
+          const imagePath = images[imageName];  // Dynamically create the image path
+          
+          return {
+            name,    // Crop name
+            img: imagePath || images.defaultImage, // Use default image if the crop image doesn't exist
+          };
+        });
+      
+        setCropsData(cropsWithImages); // Set the data for FlatList rendering
+      }
+      
+    };
+
+    fetchAndRenderCrops();
+  }, [userId]);
+
+  const fetchCropNameByDocumentId = async () => {
+    try {
+      const documentIds = await getDocumentIdsByUserId(userId);
+      const cropNames = [];
+
+      for (let documentId of documentIds) {
+        const document = await databases.getDocument(DATABASE_ID, FARMERS_COLLECTON_ID, documentId);
+        const cropName = document.crop_name;
+        cropNames.push(cropName);
+        console.log("Crop name fetched:", cropName);
+      }
+
+      return cropNames;
+    } catch (error) {
+      console.error("Error fetching crop names by documentId:", error.message);
+      return [];
+    }
+  };
+
   return (
     <View className="flex flex-1 flex-col">
       <View className="basis-1/12 pl-6">
@@ -61,9 +114,9 @@ const FarmerCrops = () => {
       </View>
       <View>
         <FlatList
-          data={fcrops}
+          data={cropsData}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.name}
           numColumns={3}
           contentContainerStyle={styles.list}
         />

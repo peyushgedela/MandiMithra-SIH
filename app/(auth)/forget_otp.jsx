@@ -1,5 +1,5 @@
 import { ScrollView, Text, View, TextInput,StyleSheet,TouchableOpacity, Alert } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
 import LandingButton from "../../components/LandingButton";
@@ -8,11 +8,18 @@ import { account,getUserID } from "../appwrite";
 const forget_otp = () => {
   const [otp, setOtp] = useState(["", "", "", "", "",""]);
   const inputs = useRef([]);
+  const [userId, setUserId] = useState(null);
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const id = await getUserID();
+      setUserId(id);
+    };
+    fetchUserId();
+  }, []);
 
   const confirmOTP = async () =>{
     try {
       const otpCode = otp.join("");
-      const userId=getUserID()
       const session = await account.createSession(userId, otpCode);
       Alert.alert('Success', 'OTP Verified...');
       router.replace("/changePassword");

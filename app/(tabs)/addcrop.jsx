@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   View,
   Text,
+  Alert,
   TextInput,
   TouchableOpacity,
 } from "react-native";
@@ -12,6 +13,9 @@ import DropdownInput from "../../components/DropdownInput";
 import Header from "../../components/Header";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { databases,FARMERS_COLLECTON_ID,DATABASE_ID,getUserID } from "../appwrite";
+import { ID } from "appwrite";
+import { router } from "expo-router";
 
 const catData = [
   { label: "vegetables" },
@@ -55,9 +59,6 @@ const gradeData = [
   { label: "Grade E" },
 ];
 
-const handleSubmit = () => {
-  console.log("Pandaga Chesko Rohith!!");
-};
 
 const AddCrop = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -70,6 +71,15 @@ const AddCrop = () => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
+  const [userId,setUserId] = useState(null)
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const id = await getUserID();
+      setUserId(id) 
+    };
+    fetchUserId();
+  }, []);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -90,6 +100,81 @@ const AddCrop = () => {
     setSelectedCategory(label);
     setSelectedName("");
   };
+
+  const handleSubmit = () => {
+    // Check if the necessary values exist
+    if (!selectedCategory) {
+      Alert.alert("Error", "Please select a crop category.");
+      return;
+    }
+    if (!selectedName) {
+      Alert.alert("Error", "Please select a crop name.");
+      return;
+    }
+    if (!variety) {
+      Alert.alert("Error", "Please enter the crop variety.");
+      return;
+    }
+    if (!quantity) {
+      Alert.alert("Error", "Please enter the crop quantity.");
+      return;
+    }
+    if (!date) {
+      Alert.alert("Error", "Please select a harvest date.");
+      return;
+    }
+    if (!minBid) {
+      Alert.alert("Error", "Please enter a minimum bid value.");
+      return;
+    }
+    if (!selectedGrade) {
+      Alert.alert("Error", "Please select the crop quality.");
+      return;
+    }
+  
+    // If all validations pass, store the crop data
+    console.log("All values are valid, proceeding to store crop details.");
+    storeFarmerCrops();
+  };
+
+  const formatDate = (date) => {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = date.getFullYear();
+    
+    return `${day}/${month}/${year}`;
+  };
+
+  const storeFarmerCrops = async () => {
+    try {
+        // Define the data object with user attributes
+        const cropData = {
+            userid: userId,
+            category: selectedCategory,
+            crop_name: selectedName,
+            crop_variety: variety,
+            crop_quantity:quantity,
+            harvest_date:formatDate(date),
+            min_bid_value:minBid,
+            crop_quality:selectedGrade
+        };
+  
+        // Store the user details in the database
+        await databases.createDocument(
+            DATABASE_ID,    // Your database ID
+            FARMERS_COLLECTON_ID,    // Your collection ID
+            ID.unique(),             // Unique ID for the document
+            cropData,                  // The user data object
+        );
+  
+        console.log('crop details stored successfully!');
+        Alert.alert("Success", "Crop details stored successfully.");
+        router.replace('/home');
+    } catch (error) {
+        console.log('Error storing user details:', error.message);
+        Alert.alert("Error", "Failed to store crop details. Please try again.");
+      }
+  }
 
   useEffect(() => {
     if (selectedCategory) {

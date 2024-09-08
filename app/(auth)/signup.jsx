@@ -16,7 +16,7 @@ import AuthInputs from "../../components/AuthInputs";
 import LandingButton from "../../components/LandingButton"; // Import LandingButton component
 import Icon from "react-native-vector-icons/FontAwesome";
 import { ID } from "appwrite";
-import { account,databases,COLLECTION_ID,DATABASE_ID,setUserID } from "../appwrite";
+import { account,databases,COLLECTION_ID,DATABASE_ID } from "../appwrite";
 
 
 const signup = () => {
@@ -48,7 +48,6 @@ const signup = () => {
       const token = await account.createPhoneToken(ID.unique(), "+91" + phoneNumber);
       console.log('Token sent to:', phoneNumber);
       setUserId(token.userId);
-      setUserID(token.userId);
       setIsOtpSent(true)
       Alert.alert('OTP Sent!', 'Please check your SMS for the OTP.');
     } catch (error) {

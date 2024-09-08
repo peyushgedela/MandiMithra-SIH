@@ -9,26 +9,24 @@ const profile = () => {
 
   const handleLogout = async () => {
     try {
-      // First, check if the user is logged in before attempting logout
-      const user = await account.get();
-      
-      if (user) {
-        await AsyncStorage.removeItem('userSession'); // Clear session data
-        // If the user is logged in, proceed to delete the session
-        await account.deleteSession("current"); // Log out the current user session
-        router.replace("/signin"); // Navigate to SignIn or login page after logout
+        // Clear session data from AsyncStorage
+        await AsyncStorage.removeItem('userSession');
+        // Redirect to SignIn or login page after logout
+        router.replace('/signin');
         Alert.alert('Success', 'Logged out successfully.');
-      }
     } catch (error) {
-      // Check if the error is due to the user being already logged out
-      if (error.message.includes("missing scope")) {
-        console.log("User is already logged out or not logged in.");
-        router.replace("/signin"); // Redirect to login page if the user is not logged in
-      } else {
-        console.error("Logout failed: ", error);
-      }
+        // Handle specific errors
+        if (error.message.includes('missing scope') || error.message.includes('Session not found')) {
+            console.log('User is already logged out or session does not exist.');
+        } else {
+            console.error('Logout failed:', error);
+            Alert.alert('Error', 'Logout failed. Please try again.');
+        }
+        // Redirect to SignIn or login page after logout failure
+        router.replace('/signin');
     }
-  };
+};
+
 
   return (
     <SafeAreaView className="flex flex-1 justify-center items-center">

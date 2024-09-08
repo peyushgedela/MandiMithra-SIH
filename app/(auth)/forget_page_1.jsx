@@ -5,13 +5,12 @@ import { Link,router } from "expo-router";
 import AuthInputs from "../../components/AuthInputs";
 import LandingButton from "../../components/LandingButton";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { databases,account,COLLECTION_ID,DATABASE_ID,setUserID } from "../appwrite";
+import { databases,account,COLLECTION_ID,DATABASE_ID } from "../appwrite";
 import { Query } from "appwrite";
 import { ID } from "react-native-appwrite";
 
 const forget_page_1 = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [isOtpSent, setIsOtpSent] = useState(false);
   const handlePhoneChange = (value) => setPhoneNumber(value);
   
   const handlePhoneNumber = async () => {
@@ -51,7 +50,6 @@ const forget_page_1 = () => {
     try {
       const token = await account.createPhoneToken(ID.unique(), "+91" + phoneNumber);
       console.log('Token sent to:', phoneNumber);
-      setUserID(token.userId);
       router.replace('/forget_otp')
       Alert.alert('OTP Sent!', 'Please check your SMS for the OTP.');
     } catch (error) {

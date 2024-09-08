@@ -6,7 +6,7 @@ import AuthInputs from "../../components/AuthInputs";
 import LandingButton from "../../components/LandingButton"; // Import LandingButton component
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Query } from "appwrite";
-import { databases,COLLECTION_ID,DATABASE_ID } from "../appwrite";
+import { databases,COLLECTION_ID,DATABASE_ID,setUserID } from "../appwrite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
@@ -17,17 +17,20 @@ const signin = () => {
   const handlePhoneChange = (value) => setPhoneNumber(value);
   const handlePasswordChange = (value) => setPassword(value);
 
-  const handleLogin = async () => {
+  const handleLogin = async (phoneNumber, password) => {
     try {
         // Log before making the query
         console.log('Attempting to query the database...');
-
+        // Check if phoneNumber and password are provided
+        if (!phoneNumber || !password) {
+          Alert.alert('Error', 'Please enter both phone number and password.');
+          return;
+      }
         // Query the database for a user with the matching phone number and password
         const result = await databases.listDocuments(
-            DATABASE_ID,  // Your database ID
-            COLLECTION_ID,  // Your collection ID
+            DATABASE_ID,
+            COLLECTION_ID,
             [
-                // Search for a document where phoneNumber and password match the input
                 Query.equal('phonenumber', phoneNumber),
                 Query.equal('password', password)
             ]
@@ -43,7 +46,9 @@ const signin = () => {
 
             // Store the user session or identifier in AsyncStorage
             await AsyncStorage.setItem('userSession', JSON.stringify(user));
-            // If found, user credentials are valid
+            await setUserID(user.userid); // Persist the userId in AsyncStorage
+
+            // Redirect to home page
             router.replace("/home");
             Alert.alert('Success', 'Successfully logged in!');
             console.log('User logged in successfully.');
@@ -58,7 +63,7 @@ const signin = () => {
         console.log('Error querying the database:', error);
         Alert.alert('Error', error.message);
     }
-  };
+};
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -103,7 +108,7 @@ const signin = () => {
               className="flex p-4 items-center justify-center bg-[#D49A42]"
               style={styles.button}
               onPress={async () => {
-                await handleLogin()
+                await handleLogin(phoneNumber,password)
               }}
             >
               <Text className="font-mregular text-xs text-white">Login</Text>

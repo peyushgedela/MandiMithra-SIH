@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import React, { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { account } from "./appwrite"; // Import the Appwrite account object
+import { getSession,setUserID,getUserID} from "./appwrite"; // Import the Appwrite account object
 import { router } from "expo-router"; // Import the router for navigation
 
 const Index = () => {
@@ -9,24 +9,25 @@ const Index = () => {
   useEffect(() => {
     // Check if the user is logged in
     const checkLoginStatus = async () => {
-      try {
-        const storedSession = await AsyncStorage.getItem('userSession');
-  
-        if (storedSession) {
-          // User session exists, validate it or use it to keep the user logged in
-          console.log('User session found:', JSON.parse(storedSession));
-          router.replace('/home'); // Redirect to home
-        } else {
-          router.replace('/page1'); // Redirect to login if no session is found
+        try {
+            const session = await getSession();
+            if (session) {
+                // User session exists, validate it or use it to keep the user logged in
+                const userId = session.userid; // Adjust based on your session data structure
+                await setUserID(userId);
+                router.replace('/home'); // Redirect to home
+            } else {
+                router.replace('/page1'); // Redirect to login if no session is found
+            }
+        } catch (error) {
+            console.log('Error checking login status:', error);
+            router.replace('/signin'); // Redirect to login on error
         }
-      } catch (error) {
-        console.log('Error checking login status:', error);
-        router.replace('/signin'); // Redirect to login on error
-      }
     };
 
     checkLoginStatus();
-  }, []);
+}, []);
+
 
   return (
     <View className="flex flex-col bg-amber-200">
