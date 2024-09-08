@@ -1,5 +1,5 @@
 import { ScrollView, Text, View,StyleSheet,TouchableOpacity, Alert } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
 import AuthInputs from "../../components/AuthInputs";
@@ -12,7 +12,14 @@ import { Query } from "appwrite";
 const changePassword = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setconfirmPassword] = useState("");
-    const userId = getUserID(); 
+    const [userId,setUserId] = useState(null)
+    useEffect(() => {
+      const fetchUserId = async () => {
+        const id = await getUserID();
+        setUserId(id) 
+      };
+      fetchUserId();
+    }, []);
     const handlePasswordChange = (value) => setPassword(value);
     const handleConfirmPasswordChange = (value) => setconfirmPassword(value);
 
