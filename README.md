@@ -72,9 +72,17 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For any questions or feedback, please contact [Your Name](mailto:peyushgedela@gmail.com).
+For any questions or feedback, please contact [Peyush Gedela](mailto:peyushgedela@gmail.com).
+
+## Credits
+
+MandiMithra was developed by:
+- S Meghanath Reddy [Github Profile](https://github.com/MeghanathReddySomagattu)
+- Kaustubh Bharti [Github Profile](https://github.com/Kaustubh-Bharti)
+- K Purnanandh [Github profile](https://github.com/PURNANANDH)
+- A Rohith Kumar [Github Profile](https://github.com/TheprogrammerRohith)
+- G Peyush [Github Profile](https://github.com/peyushgedela)
 
 ---
 
 Thank you for using MandiMithra. We hope this platform helps create a more stable and efficient market for farmers and buyers alike.
-```
