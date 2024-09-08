@@ -8,6 +8,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 import Header from "../../components/Header";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const bidders = [
   {
@@ -57,6 +58,19 @@ const Bidders = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
+      <View>
+        <TouchableOpacity
+          className="items-center m-3 p-3 rounded-2xl bg-red-600"
+          onPress={() => {
+            console.log("delete crop rohith!!!");
+          }}
+        >
+          <View className="flex flex-row items-center justify-center">
+            <Icon name="delete-forever" size={30} color={"white"} />
+            <Text className="pl-2 text-white font-mbold">Delete Crop</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
