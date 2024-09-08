@@ -135,7 +135,7 @@ const ViewFarmers = () => {
                 </View>
                 <View style={styles.bidContainer}>
                   <Text className="font-mregular text-[#ff0000]">
-                    Average Bid Value
+                    Bid Value
                   </Text>
                   <Text style={styles.bidAmount}>
                     &#x20B9;{farmer.min_bid_value.toLocaleString()}
