@@ -55,6 +55,10 @@ const gradeData = [
   { label: "Grade E", value: "5" },
 ];
 
+const handleSubmit = () => {
+  console.log("Pandaga Chesko Rohith!!");
+};
+
 const addcrop = () => {
   // states to store the data
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -167,7 +171,9 @@ const addcrop = () => {
           >
             <Text className="font-mlight">Expected Harvest Date</Text>
           </TouchableOpacity>
-          <Text className="font-mlight text-sm">Selected: {date.toLocaleDateString()}</Text>
+          <Text className="font-mlight text-sm">
+            Selected: {date.toLocaleDateString()}
+          </Text>
           {show && (
             <DateTimePicker
               testID="dateTimePicker"
@@ -208,9 +214,7 @@ const addcrop = () => {
         <View>
           <TouchableOpacity
             className="bg-[#548860] p-3 justify-center items-center rounded-xl"
-            onPress={() => {
-              console.log("Enjoy Rohith!!!");
-            }}
+            onPress={handleSubmit}
           >
             <Text className="font-mbold text-white">Submit</Text>
           </TouchableOpacity>
