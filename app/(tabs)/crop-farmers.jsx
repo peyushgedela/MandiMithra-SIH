@@ -5,43 +5,100 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
+import { databases,DATABASE_ID,FARMERS_COLLECTON_ID, COLLECTION_ID } from "../appwrite";
+import { Query } from "appwrite";
 
-const farmers = [
-  {
-    id: 1,
-    name: "Ravi Kumar",
-    grain: "Basmati Rice",
-    quantity: "X Ton",
-    rating: 4.5,
-    bid: 85000,
-    organic: true,
-  },
-  {
-    id: 2,
-    name: "Kaustubh Baby",
-    grain: "Black Rice",
-    quantity: "X Ton",
-    rating: 4.5,
-    bid: 85000,
-    organic: false,
-  },
-  {
-    id: 3,
-    name: "Ravi Kumar",
-    grain: "Basmati Rice",
-    quantity: "X Ton",
-    rating: 4.5,
-    bid: 85000,
-    organic: true,
-  },
-];
+const fetchUserNameById = async (userId) => {
+  try {
+      const response = await databases.listDocuments(
+          DATABASE_ID,
+          COLLECTION_ID,
+          [
+              Query.equal('userid', userId)
+          ]
+      );
+      return response.documents.length > 0 ? response.documents[0].name : null;
+  } catch (error) {
+      console.error('Error fetching user name:', error);
+      throw error;
+  }
+};
+
+const fetchCropDetailsAndUserData = async (name) => {
+  try {
+      // Fetch crop details based on crop name
+      const cropDocuments = await databases.listDocuments(
+          DATABASE_ID,
+          FARMERS_COLLECTON_ID,
+          [
+              Query.equal('crop_name', name)
+          ]
+      );
+
+      if (!cropDocuments || cropDocuments.documents.length === 0) {
+        console.log('No crop documents found for the specified crop name.');
+        return []; // Return an empty array if no documents are found
+      }
+
+      const cropDetailsWithUserNames = await Promise.all(cropDocuments.documents.map(async (cropDoc) => {
+          const userId = cropDoc.userid;  // Assuming 'userId' is a field in the crop document
+
+          // Fetch user name from another database
+          const userName = await fetchUserNameById(userId);
+
+          // Return an array containing the user name, crop quantity, and minimum bid value
+          return {
+              userId:userId,
+              name: userName || 'Unknown User', 
+              crop_quantity: cropDoc.crop_quantity, 
+              min_bid_value: cropDoc.min_bid_value 
+          };
+      }));
+
+      return cropDetailsWithUserNames;
+  } catch (error) {
+      console.error('Error fetching crop details and user names:', error);
+      throw error;
+  }
+};
 
 const ViewFarmers = () => {
+  const [cropData, setCropData] = useState([]);
   const { name } = useLocalSearchParams();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const data = await fetchCropDetailsAndUserData(name); // Pass the crop name
+            setCropData(data);
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Error fetching crop data:', error);
+            setIsLoading(false);
+        }
+    };
+
+    fetchData();  // Call the function when the component mounts
+  }, []); 
+
+  if (isLoading) {
+    return <Text>Loading...</Text>; // Render loading state
+  }
+  if (cropData.length === 0) {
+    return <SafeAreaView style={styles.safeArea}>
+    <Header className="basis-1/12" />
+    <View style={styles.titleContainer}>
+      <Text style={styles.titleText} className="font-mregular">
+        No crops found for {name}
+      </Text>
+    </View>
+    </SafeAreaView>
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -52,13 +109,13 @@ const ViewFarmers = () => {
         </Text>
       </View>
       <ScrollView>
-        {farmers.map((farmer, index) => (
+        {cropData.map((farmer, index) => (
           <TouchableOpacity
             key={index}
             onPress={() => {
               router.push({
                 pathname: "/add-bid-buyer",
-                params: { id: farmer.id },
+                params: { id: farmer.userId, cropName:name },
               });
             }}
             style={styles.cardContainer}
@@ -66,15 +123,14 @@ const ViewFarmers = () => {
             <View style={styles.cardContent}>
               <View style={styles.infoContainer}>
                 <Text style={styles.farmerName}>{farmer.name}</Text>
-                <Text style={styles.grainType}>{farmer.grain}</Text>
-                <Text style={styles.quantity}>Quantity: {farmer.quantity}</Text>
-                {farmer.organic && (
+                <Text style={styles.quantity}>Quantity: {farmer.crop_quantity}</Text>
+                {(
                   <Text style={styles.organicLabel}>Organic</Text>
                 )}
               </View>
               <View className="flex flex-col">
                 <View style={styles.ratingContainer}>
-                  <Text style={styles.rating}>{farmer.rating}</Text>
+                  <Text style={styles.rating}>{'4.5'}</Text>
                   <Text style={styles.star}>⭐</Text>
                 </View>
                 <View style={styles.bidContainer}>
@@ -82,7 +138,7 @@ const ViewFarmers = () => {
                     Average Bid Value
                   </Text>
                   <Text style={styles.bidAmount}>
-                    &#x20B9;{farmer.bid.toLocaleString()}
+                    &#x20B9;{farmer.min_bid_value.toLocaleString()}
                   </Text>
                 </View>
               </View>
@@ -93,6 +149,7 @@ const ViewFarmers = () => {
     </SafeAreaView>
   );
 };
+
 
 export default ViewFarmers;
 
@@ -126,14 +183,14 @@ const styles = StyleSheet.create({
   },
   farmerName: {
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 25,
   },
   grainType: {
     fontSize: 14,
     marginVertical: 5,
   },
   quantity: {
-    fontSize: 14,
+    fontSize: 18,
     color: "#555",
   },
   organicLabel: {
