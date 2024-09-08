@@ -72,6 +72,9 @@ const FarmerBidding = () => {
       {farmerBids.map((bid) => (
         <TouchableOpacity
           key={bid.id}
+          disabled={
+            bid.stateOfOffer === "accepted" || bid.stateOfOffer === "rejected" || bid.stateOfOffer === "pending"
+          }
           onPress={() => {
             router.push("/modify-bid-farmer");
           }}

@@ -87,7 +87,7 @@ const ViewFarmers = () => {
   }, []); 
 
   if (isLoading) {
-    return <Text>Loading...</Text>; // Render loading state
+    return <View className="flex-1 justify-center items-center"><Text>Loading...</Text></View>; // Render loading state
   }
   if (cropData.length === 0) {
     return <SafeAreaView style={styles.safeArea}>

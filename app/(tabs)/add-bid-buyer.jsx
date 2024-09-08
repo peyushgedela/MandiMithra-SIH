@@ -1,4 +1,6 @@
 import {
+  Alert,
+  Linking,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,7 +12,12 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 import Header from "../../components/Header";
-import { databases, DATABASE_ID, COLLECTION_ID, FARMERS_COLLECTON_ID } from "../appwrite";
+import {
+  databases,
+  DATABASE_ID,
+  COLLECTION_ID,
+  FARMERS_COLLECTON_ID,
+} from "../appwrite";
 import { Query } from "appwrite";
 
 const farmerinfo = {
@@ -37,31 +44,29 @@ const farmerinfo = {
 const fetchUserNameById = async (userId) => {
   try {
     // Fetch user details based on userId
-    const response = await databases.listDocuments(
-      DATABASE_ID,
-      COLLECTION_ID,
-      [Query.equal('userid', userId)]
-    );
+    const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID, [
+      Query.equal("userid", userId),
+    ]);
 
     // Check if the document exists and return name and phone number
     if (response.documents.length > 0) {
       const user = response.documents[0];
       return {
-        name: user.name || 'Unknown User',
-        phoneNumber: user.phonenumber || 'Not Provided'
+        name: user.name || "Unknown User",
+        phoneNumber: user.phonenumber || "Not Provided",
       };
     } else {
       return {
-        name: 'Unknown User',
-        phoneNumber: 'Not Provided'
+        name: "Unknown User",
+        phoneNumber: "Not Provided",
       };
     }
   } catch (error) {
-    console.error('Error fetching user details:', error);
+    console.error("Error fetching user details:", error);
     // Return default values in case of an error
     return {
-      name: 'Unknown User',
-      phoneNumber: 'Not Provided'
+      name: "Unknown User",
+      phoneNumber: "Not Provided",
     };
   }
 };
@@ -72,37 +77,33 @@ const fetchCropDetailsByUserIdAndCropName = async (userId, cropName) => {
     const response = await databases.listDocuments(
       DATABASE_ID,
       FARMERS_COLLECTON_ID,
-      [
-        Query.equal('userid', userId),
-        Query.equal('crop_name', cropName)
-      ]
+      [Query.equal("userid", userId), Query.equal("crop_name", cropName)]
     );
 
     // Check if any documents are returned
     if (response.documents.length > 0) {
       // Return an array of crop details
-      return response.documents.map(doc => ({
+      return response.documents.map((doc) => ({
         crop_quantity: doc.crop_quantity,
         min_bid_value: doc.min_bid_value,
-        harvest_date: doc.harvest_date
+        harvest_date: doc.harvest_date,
       }));
     } else {
       // Return an empty array if no documents are found
       return [];
     }
   } catch (error) {
-    console.error('Error fetching crop details:', error);
+    console.error("Error fetching crop details:", error);
     // Return an empty array in case of an error
     return [];
   }
 };
 
-
 const AddBidBuyer = () => {
   const { id, cropName } = useLocalSearchParams();
   const [value, setbidvalue] = useState(0);
-  const [userData, setUserData] = useState([])
-  const [cropData, setCropData] = useState([])
+  const [userData, setUserData] = useState([]);
+  const [cropData, setCropData] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -110,11 +111,11 @@ const AddBidBuyer = () => {
         const data = await fetchUserNameById(id); // Pass the crop name
         setUserData(data);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
     };
 
-    fetchUserData();  // Call the function when the component mounts
+    fetchUserData(); // Call the function when the component mounts
   }, []);
 
   useEffect(() => {
@@ -123,21 +124,22 @@ const AddBidBuyer = () => {
         const data = await fetchCropDetailsByUserIdAndCropName(id, cropName);
         setCropData(data);
       } catch (error) {
-        console.error('Error fetching crop data:', error);
+        console.error("Error fetching crop data:", error);
       }
     };
 
-    fetchCropData();  // Call the function when the component mounts
+    fetchCropData(); // Call the function when the component mounts
   }, []);
 
+  const handlePhonePress = (phoneNumber) => {
+    Linking.openURL(`tel:${phoneNumber}`);
+  };
 
   return (
     <SafeAreaView className="flex-1 flex-col bg-[#fff8dc]">
       <Header className="basis-1/12" />
       <View className="basis-1/12 items-center">
-        <Text className="font-mblack text-xl">
-          Add bid for {userData.name}
-        </Text>
+        <Text className="font-mblack text-xl">Add bid for {userData.name}</Text>
       </View>
       <ScrollView>
         {cropData.map((crop, index) => (
@@ -173,7 +175,10 @@ const AddBidBuyer = () => {
                 {farmerinfo.farmer.location.district},{" "}
                 {farmerinfo.farmer.location.pincode}
               </Text>
-              <Text className="font-mregular text-lg">
+              <Text
+                className="font-mregular text-lg underline text-blue-700"
+                onPress={() => handlePhonePress(userData.phoneNumber)}
+              >
                 Contact: {userData.phoneNumber}
               </Text>
               <Text className="font-mregular text-lg">
@@ -194,6 +199,7 @@ const AddBidBuyer = () => {
                     placeholder="Enter your bid value"
                     value={value}
                     onChange={(value) => setbidvalue(value)}
+                    keyboardType="number-pad"
                   />
                 </View>
                 <View className="items-center mb-4">
@@ -201,7 +207,8 @@ const AddBidBuyer = () => {
                     className="bg-[#33b249] rounded-lg w-2/3 items-center"
                     onPress={() => {
                       console.log("Enjoy Rohith!!!");
-                      router.replace("/modify-bid-buyer");
+                      Alert.alert("Bid submitted successfully!!!");
+                      router.replace("/home");
                     }}
                   >
                     <Text className="font-mbold text-lg text-[#fff] p-2 rounded-lg">
@@ -210,7 +217,8 @@ const AddBidBuyer = () => {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View></View>
+            </View>
+          </View>
         ))}
       </ScrollView>
     </SafeAreaView>

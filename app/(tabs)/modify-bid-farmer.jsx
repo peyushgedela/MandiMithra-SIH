@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Header from "../../components/Header";
 
@@ -20,10 +20,6 @@ const userInfo = {
   rating: 4.2,
 };
 
-const onAccept = () => {};
-const onReject = () => {};
-const onCounter = () => {};
-
 const handlePhonePress = (phoneNumber) => {
   Linking.openURL(`tel:${phoneNumber}`);
 };
@@ -31,6 +27,19 @@ const handlePhonePress = (phoneNumber) => {
 const ModifyBidFarmer = () => {
   const { id } = useLocalSearchParams();
   const [counterBid, setCounterBid] = useState(0);
+
+  const onAccept = () => {
+    alert("You have accepted the farmer's bid.");
+    router.replace("/home");
+  };
+  const onReject = () => {
+    alert("You have rejected the farmer's bid.");
+    router.replace("/home");
+  };
+  const onCounter = () => {
+    alert("You have countered with ₹" + counterBid);
+    router.replace("/home");
+  };
 
   return (
     <SafeAreaView className="flex-1 flex-col bg-[#DEEAE1]">

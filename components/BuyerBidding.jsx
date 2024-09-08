@@ -73,8 +73,12 @@ const BuyerBidding = () => {
         <TouchableOpacity
           key={bid.id}
           onPress={() => {
-            router.push("/modify-bid-buyer");
+            router.push({
+              pathname: "/modify-bid-buyer",
+              params: { id: bid.id },
+            });
           }}
+          disabled={bid.stateOfResponse === "accepted" || bid.stateOfResponse === "rejected" || bid.stateOfResponse === "pending"}
         >
           <View
             style={[styles.bidContainer]}

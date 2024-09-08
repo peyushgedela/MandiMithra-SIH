@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Header from "../../components/Header";
 
@@ -30,18 +30,21 @@ const ModifyBidBuyer = () => {
     alert(
       "You have accepted the farmer's counteroffer of ₹" + userInfo.counterOffer
     );
+    router.replace("/home");
     // Here, you would normally handle the business logic for accepting the bid
   };
 
   // Function to handle rejection of the farmer's counteroffer
   const onReject = () => {
     alert("You have rejected the farmer's counteroffer.");
+    router.replace("/home");
     // Handle the business logic for rejecting the bid
   };
 
   // Function to handle submission of a new counteroffer by the buyer
   const onCounter = () => {
     alert("You have countered with ₹" + buyerCounterBid);
+    router.replace("/home");
     // Business logic for sending the counteroffer
   };
 
@@ -51,13 +54,13 @@ const ModifyBidBuyer = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 flex-col bg-[#DEEAE1]">
+    <SafeAreaView className="flex-1 flex-col bg-[#fff8dc]">
       <Header className="basis-1/12" />
       <View className="justify-center items-center basis-1/12">
-        <Text className="font-mblack text-xl">Bidding by UserID: {id}</Text>
+        <Text className="font-mblack text-xl">Bidding with FarmerID: {id}</Text>
       </View>
       <View>
-        <View className="m-6 p-3 border-2 rounded-xl bg-[#FDFDFD]">
+        <View className="m-6 p-3 border-2 rounded-xl bg-[#eaddca]">
           <Text className="font-mregular text-base">
             Buyer Name: {userInfo.name} {"\n"}
             Initial Bid: &#x20B9;{userInfo.initialBid} {"\n"}
@@ -88,7 +91,7 @@ const ModifyBidBuyer = () => {
           </View>
         </View>
       </View>
-      <View className="m-6 p-3 border-2 rounded-xl bg-[#FDFDFD] items-center">
+      <View className="m-6 p-3 border-2 rounded-xl bg-[#eaddca] items-center">
         <Text className="font-mblack text-base">
           Provide Your Counter Offer
         </Text>
@@ -111,10 +114,10 @@ const ModifyBidBuyer = () => {
           </View>
           <View className="items-center">
             <TouchableOpacity
-              className="bg-[#BBEEDC] p-3 mt-4 rounded-3xl w-5/6 items-center"
+              className="bg-[#f28c28] p-3 mt-4 rounded-3xl w-5/6 items-center"
               onPress={onCounter}
             >
-              <Text className="text-black font-mbold text-base">Counter</Text>
+              <Text className="text-white font-mbold text-base">Counter</Text>
             </TouchableOpacity>
           </View>
         </View>
