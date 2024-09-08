@@ -31,7 +31,7 @@ const Home = () => {
         case "Bidding":
           return <BuyerBidding />;
         case "Blogs":
-          return <Blogs userType="buyer"/>;
+          return <Blogs userType="buyer" />;
         default:
           return <BuyerCrops />;
       }
@@ -43,7 +43,7 @@ const Home = () => {
         case "Bidding":
           return <FarmerBidding />;
         case "Blogs":
-          return <Blogs userType="farmer"/>;
+          return <Blogs userType="farmer" />;
         default:
           return <FarmerCrops />;
       }

@@ -13,6 +13,7 @@ const UserTypeLayout = () => {
       <Stack.Screen name={"crop-farmers"} options={{headerShown: false}}/>
       <Stack.Screen name={"modify-bid-buyer"} options={{headerShown: false}}/>
       <Stack.Screen name={"add-bid-buyer"} options={{headerShown: false}}/>
+      <Stack.Screen name={"userprofile"} options={{headerShown: false}}/>
     </Stack>
   );
 };
