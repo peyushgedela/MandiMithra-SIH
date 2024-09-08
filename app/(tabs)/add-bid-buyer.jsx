@@ -84,6 +84,7 @@ const fetchCropDetailsByUserIdAndCropName = async (userId, cropName) => {
     if (response.documents.length > 0) {
       // Return an array of crop details
       return response.documents.map((doc) => ({
+        crop_variety: doc.crop_variety,
         crop_quantity: doc.crop_quantity,
         min_bid_value: doc.min_bid_value,
         harvest_date: doc.harvest_date,
@@ -148,6 +149,9 @@ const AddBidBuyer = () => {
               <View className="items-center mb-4">
                 <Text className="font-mbold text-lg">Crop Info</Text>
               </View>
+              <Text className="font-mregular text-lg">
+                Variety: {crop.crop_variety}
+              </Text>
               <Text className="font-mregular text-lg">
                 Quantity: {crop.crop_quantity}
               </Text>
