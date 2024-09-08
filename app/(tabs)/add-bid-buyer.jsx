@@ -103,7 +103,7 @@ const AddBidBuyer = () => {
                 className="bg-[#d2042d] rounded-lg w-2/3 items-center"
                 onPress={() => {
                   console.log("Enjoy Rohith!!!");
-                  router.replace("/modify-bid-buyer");
+                  router.replace("/home");
                 }}
               >
                 <Text className="font-mbold text-lg text-[#fff] p-2 rounded-lg">
