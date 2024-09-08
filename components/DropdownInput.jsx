@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import { Dropdown } from "react-native-element-dropdown";
-import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
+import Icon from "react-native-vector-icons/FontAwesome";
 import { View, StyleSheet } from "react-native";
 
-const DropdownInput = ({
-  data,
-  iconName,
-  placeholder,
-  onValueChange,
-}) => {
-  const [value, setValue] = useState(null);
+const DropdownInput = ({ data, iconName, placeholder, onValueChange }) => {
+  const [selectedLabel, setSelectedLabel] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
   return (
@@ -25,16 +20,16 @@ const DropdownInput = ({
           search
           maxHeight={300}
           labelField="label"
-          valueField="value"
+          valueField="label"
           placeholder={!isFocus ? placeholder : "..."}
           searchPlaceholder="Search..."
-          value={value}
+          value={selectedLabel}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={(item) => {
-            setValue(item.value);
+            setSelectedLabel(item.label);
             setIsFocus(false);
-            onValueChange(item.value);
+            onValueChange(item.label);
           }}
           renderLeftIcon={() => (
             <Icon

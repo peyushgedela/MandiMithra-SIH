@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -14,66 +14,65 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const catData = [
-  { label: "vegetables", value: "1" },
-  { label: "grains", value: "2" },
-  { label: "fruits", value: "3" },
+  { label: "vegetables" },
+  { label: "grains" },
+  { label: "fruits" },
 ];
 
 const nameData = {
-  1: [
-    { label: "cabbage", value: "1" },
-    { label: "cauliflower", value: "2" },
-    { label: "coffee", value: "3" },
-    { label: "ladyfinger", value: "4" },
-    { label: "onion", value: "5" },
-    { label: "potato", value: "6" },
-    { label: "tea", value: "7" },
+  vegetables: [
+    { label: "cabbage" },
+    { label: "cauliflower" },
+    { label: "coffee" },
+    { label: "ladyfinger" },
+    { label: "onion" },
+    { label: "potato" },
+    { label: "tea" },
   ],
-  2: [
-    { label: "sugarcane", value: "1" },
-    { label: "maize", value: "2" },
-    { label: "rice", value: "3" },
-    { label: "wheat", value: "4" },
+  grains: [
+    { label: "sugarcane" },
+    { label: "maize" },
+    { label: "rice" },
+    { label: "wheat" },
   ],
-  3: [
-    { label: "apple", value: "1" },
-    { label: "capsicum", value: "2" },
-    { label: "green-pepper", value: "3" },
-    { label: "guava", value: "4" },
-    { label: "orange", value: "5" },
-    { label: "pineapple", value: "6" },
-    { label: "red-pepper", value: "7" },
-    { label: "watermelon", value: "8" },
+  fruits: [
+    { label: "apple" },
+    { label: "capsicum" },
+    { label: "green-pepper" },
+    { label: "guava" },
+    { label: "orange" },
+    { label: "pineapple" },
+    { label: "red-pepper" },
+    { label: "watermelon" },
   ],
 };
 
 const gradeData = [
-  { label: "Grade A", value: "1" },
-  { label: "Grade B", value: "2" },
-  { label: "Grade C", value: "3" },
-  { label: "Grade D", value: "4" },
-  { label: "Grade E", value: "5" },
+  { label: "Grade A" },
+  { label: "Grade B" },
+  { label: "Grade C" },
+  { label: "Grade D" },
+  { label: "Grade E" },
 ];
 
 const handleSubmit = () => {
   console.log("Pandaga Chesko Rohith!!");
 };
 
-const addcrop = () => {
-  // states to store the data
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedName, setSelectedName] = useState(null);
-  const [selectedGrade, setSelectedGrade] = useState(null);
-  const [avlName, setAvlName] = useState([]);
+const AddCrop = () => {
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedName, setSelectedName] = useState("");
+  const [selectedGrade, setSelectedGrade] = useState("");
+  const [availableNames, setAvailableNames] = useState([]);
   const [variety, setVariety] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [minBid, setMinBid] = useState(0);
+  const [quantity, setQuantity] = useState("");
+  const [minBid, setMinBid] = useState("");
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
+    const currentDate = selectedDate || date;
     setShow(false);
     setDate(currentDate);
   };
@@ -87,17 +86,16 @@ const addcrop = () => {
     showMode("date");
   };
 
-  // Function to handle category change
-  const handleCategoryChange = (value) => {
-    setSelectedCategory(value);
+  const handleCategoryChange = (label) => {
+    setSelectedCategory(label);
+    setSelectedName("");
   };
 
-  // useEffect to update names when category changes
   useEffect(() => {
     if (selectedCategory) {
-      setAvlName(nameData[selectedCategory] || []); // Set avlName to the array of names or empty array
+      setAvailableNames(nameData[selectedCategory] || []);
     } else {
-      setAvlName([]); // Reset to an empty array when category changes
+      setAvailableNames([]);
     }
   }, [selectedCategory]);
 
@@ -119,12 +117,12 @@ const addcrop = () => {
         </View>
         <View style={styles.input}>
           <DropdownInput
-            data={avlName}
+            data={availableNames}
             style={styles.input}
             label="Select Name of Crop"
             iconName="leaf"
             placeholder="Select Name of Crop"
-            onValueChange={(value) => setSelectedName(value)}
+            onValueChange={(label) => setSelectedName(label)}
           />
         </View>
         <View style={styles.input}>
@@ -136,9 +134,8 @@ const addcrop = () => {
               <Icon name="tag" size={20} color="black" style={styles.icon} />
             </View>
             <TextInput
-              onValueChange={(value) => {
-                setVariety(value);
-              }}
+              onChangeText={setVariety}
+              value={variety}
               placeholder="Explain Crop Variety"
               keyboardType="default"
             />
@@ -153,9 +150,8 @@ const addcrop = () => {
               <Icon name="cube" size={20} color="black" style={styles.icon} />
             </View>
             <TextInput
-              onValueChange={(value) => {
-                setQuantity(value);
-              }}
+              onChangeText={setQuantity}
+              value={quantity}
               placeholder="Enter Quantity of Produce (in tonnes)"
               keyboardType="decimal-pad"
             />
@@ -193,9 +189,8 @@ const addcrop = () => {
               <Icon name="rupee" size={20} color="black" style={styles.icon} />
             </View>
             <TextInput
-              onChangeText={(value) => {
-                setMinBid(value);
-              }}
+              onChangeText={setMinBid}
+              value={minBid}
               placeholder="Expected Minimum Bid Value"
               keyboardType="number-pad"
             />
@@ -208,7 +203,7 @@ const addcrop = () => {
             label="Select Grade"
             iconName="star"
             placeholder="Select Crop Quality"
-            onValueChange={(value) => setSelectedGrade(value)}
+            onValueChange={(label) => setSelectedGrade(label)}
           />
         </View>
         <View>
@@ -224,7 +219,7 @@ const addcrop = () => {
   );
 };
 
-export default addcrop;
+export default AddCrop;
 
 const styles = StyleSheet.create({
   container: {
