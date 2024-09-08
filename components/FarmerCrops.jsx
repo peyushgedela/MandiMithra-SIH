@@ -13,6 +13,7 @@ import Icon from "react-native-vector-icons/FontAwesome6";
 import { databases, DATABASE_ID, FARMERS_COLLECTON_ID, getUserID } from "../app/appwrite";
 import { Query } from "appwrite";
 
+// Function to get document IDs by userId
 const getDocumentIdsByUserId = async (userId) => {
   try {
     const result = await databases.listDocuments(
@@ -26,7 +27,7 @@ const getDocumentIdsByUserId = async (userId) => {
       console.log(documentIds);
       return documentIds;
     } else {
-      throw new Error("User document not found.");
+      return null; // Return null if no documents found
     }
   } catch (error) {
     console.error("Error retrieving documentId:", error);
@@ -34,6 +35,7 @@ const getDocumentIdsByUserId = async (userId) => {
   }
 };
 
+// Function to render each crop item
 const renderItem = ({ item }) => (
   <TouchableOpacity
     style={styles.itemContainer}
@@ -56,7 +58,9 @@ const renderItem = ({ item }) => (
 const FarmerCrops = () => {
   const [userId, setUserId] = useState(null);
   const [cropsData, setCropsData] = useState([]);
+  const [isEmpty, setIsEmpty] = useState(false); // State to track if no crops are available
 
+  // Fetch user ID when component mounts
   useEffect(() => {
     const fetchUserId = async () => {
       const id = await getUserID();
@@ -65,34 +69,44 @@ const FarmerCrops = () => {
     fetchUserId();
   }, []);
 
+  // Fetch crops based on userId
   useEffect(() => {
     const fetchAndRenderCrops = async () => {
       if (userId) {
         const cropNames = await fetchCropNameByDocumentId();
-        
+
+        if (!cropNames || cropNames.length === 0) {
+          setIsEmpty(true); // If no crops found, set isEmpty to true
+          return;
+        }
+
         const cropsWithImages = cropNames.map((name) => {
           const imageName = name.toLowerCase(); // Convert crop name to lowercase
           const imagePath = images[imageName];  // Dynamically create the image path
-          
+
           return {
             name,    // Crop name
             img: imagePath || images.defaultImage, // Use default image if the crop image doesn't exist
           };
         });
-      
+
         setCropsData(cropsWithImages); // Set the data for FlatList rendering
       }
-      
     };
 
     fetchAndRenderCrops();
   }, [userId]);
 
+  // Function to fetch crop names by document ID
   const fetchCropNameByDocumentId = async () => {
     try {
       const documentIds = await getDocumentIdsByUserId(userId);
-      const cropNames = [];
+      
+      if (!documentIds) {
+        return []; // Return empty array if no document IDs found
+      }
 
+      const cropNames = [];
       for (let documentId of documentIds) {
         const document = await databases.getDocument(DATABASE_ID, FARMERS_COLLECTON_ID, documentId);
         const cropName = document.crop_name;
@@ -113,13 +127,17 @@ const FarmerCrops = () => {
         <Text className="font-mblack text-xl">My Crops</Text>
       </View>
       <View>
-        <FlatList
-          data={cropsData}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.name}
-          numColumns={3}
-          contentContainerStyle={styles.list}
-        />
+        {isEmpty ? ( // Conditionally render based on crops availability
+          <Text style={styles.emptyText}>You have not uploaded any crops yet.</Text>
+        ) : (
+          <FlatList
+            data={cropsData}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.name}
+            numColumns={3}
+            contentContainerStyle={styles.list}
+          />
+        )}
       </View>
       <View style={styles.floatingButton}>
         <TouchableOpacity onPress={() => router.push("/addcrop")}>
@@ -172,5 +190,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
+  },
+  emptyText: {
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 20,
+    color: "#999",
   },
 });
