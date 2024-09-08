@@ -40,6 +40,7 @@ const Bidders = () => {
         {bidders.map((bidder, index) => (
           <TouchableOpacity
             key={index}
+            style={styles.button}
             onPress={() => {
               router.push({
                 pathname: "/modify-bid-farmer",
@@ -47,7 +48,7 @@ const Bidders = () => {
               });
             }}
           >
-            <View className="m-3 p-3 border-2 rounded-xl bg-[#FDFDFD]">
+            <View className="m-3 p-3 border-2 border-gray-500 rounded-xl bg-[#cfe0d3]">
               <Text className="font-mregular text-base">
                 Buyer Name: {bidder.name} {"\n"}
                 Bid Amount: &#x20B9;{bidder.bid}
@@ -64,6 +65,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#DEEAE1",
+  },
+  button: {
+    elevation: 10,
   },
 });
 

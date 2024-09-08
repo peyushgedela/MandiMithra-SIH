@@ -126,7 +126,7 @@ const renderItem = ({ item }) => (
       });
     }}
   >
-    <View className="p-2 rounded-3xl bg-stone-200 border-2 border-gray-400">
+    <View className="p-2 rounded-3xl bg-white border-2 border-gray-400">
       <Image source={item.image} style={styles.image} />
       <Text className="font-mregular" style={styles.itemText}>
         {item.name}

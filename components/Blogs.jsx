@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   blogPost: {
     marginBottom: 20,
     padding: 10,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#ffffff",
     borderRadius: 10,
   },
   blogTitle: {
