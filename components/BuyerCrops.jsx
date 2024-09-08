@@ -1,6 +1,7 @@
 import {
   FlatList,
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -9,33 +10,41 @@ import {
 import React from "react";
 import images from "../constants/images";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
 
 const vegetables = [
   {
+    id: 1,
     name: "cabbage",
     image: images.cabbage,
   },
   {
+    id: 2,
     name: "cauliflower",
     image: images.cauliflower,
   },
   {
+    id: 3,
     name: "coffee",
     image: images.coffee,
   },
   {
+    id: 4,
     name: "ladyfinger",
     image: images.ladyfinger,
   },
   {
+    id: 5,
     name: "onion",
     image: images.onion,
   },
   {
+    id: 6,
     name: "potato",
     image: images.potato,
   },
   {
+    id: 7,
     name: "tea",
     image: images.tea,
   },
@@ -43,34 +52,42 @@ const vegetables = [
 
 const fruits = [
   {
+    id: 1,
     name: "apple",
     image: images.apple,
   },
   {
+    id: 2,
     name: "capsicum",
     image: images.capsicum,
   },
   {
+    id: 3,
     name: "greenPepper",
     image: images.greenPepper,
   },
   {
+    id: 4,
     name: "guava",
     image: images.guava,
   },
   {
+    id: 5,
     name: "orange",
     image: images.orange,
   },
   {
+    id: 6,
     name: "pineapple",
     image: images.pineapple,
   },
   {
+    id: 7,
     name: "redPepper",
     image: images.redPepper,
   },
   {
+    id: 8,
     name: "watermelon",
     image: images.watermelon,
   },
@@ -78,18 +95,22 @@ const fruits = [
 
 const grains = [
   {
+    id: 1,
     name: "maize",
     image: images.maize,
   },
   {
+    id: 2,
     name: "rice",
     image: images.rice,
   },
   {
+    id: 3,
     name: "sugarcane",
     image: images.sugarcane,
   },
   {
+    id: 4,
     name: "wheat",
     image: images.wheat,
   },
@@ -100,7 +121,7 @@ const renderItem = ({ item }) => (
     style={styles.itemContainer}
     onPress={() => {
       router.push({
-        pathname: "/farmers",
+        pathname: "/crop-farmers",
         params: { name: item.name },
       });
     }}
@@ -117,40 +138,44 @@ const renderItem = ({ item }) => (
 const BuyerCrops = () => {
   return (
     <SafeAreaView>
-      <View>
-        <Text>Vegetables</Text>
-        <FlatList
-          data={vegetables}
-          renderItem={renderItem}
-          keyExtractor={(item) => {
-            item.id;
-          }}
-          contentContainerStyle={{ justifyContent: "space-between" }}
-          horizontal={true}
-        />
-      </View>
-      <View>
-        <Text>Fruits</Text>
+      <ScrollView>
         <View>
-          {fruits.map((fruit) => (
-            <View key={fruit.name}>
-              <Text>{fruit.name}</Text>
-              <Image source={fruit.image} />
-            </View>
-          ))}
+          <Text className="font-mblack text-2xl pl-3">Vegetables</Text>
+          <FlatList
+            data={vegetables}
+            renderItem={renderItem}
+            keyExtractor={(item) => {
+              item.id;
+            }}
+            contentContainerStyle={{ justifyContent: "space-between" }}
+            horizontal={true}
+          />
         </View>
-      </View>
-      <View>
-        <Text>Grains</Text>
         <View>
-          {grains.map((grain) => (
-            <View key={grain.name}>
-              <Text>{grain.name}</Text>
-              <Image source={grain.image} />
-            </View>
-          ))}
+          <Text className="font-mblack text-2xl pl-3">Fruits</Text>
+          <FlatList
+            data={fruits}
+            renderItem={renderItem}
+            keyExtractor={(item) => {
+              item.id;
+            }}
+            contentContainerStyle={{ justifyContent: "space-between" }}
+            horizontal={true}
+          />
         </View>
-      </View>
+        <View>
+          <Text className="font-mblack text-2xl pl-3">Grains</Text>
+          <FlatList
+            data={grains}
+            renderItem={renderItem}
+            keyExtractor={(item) => {
+              item.id;
+            }}
+            contentContainerStyle={{ justifyContent: "space-between" }}
+            horizontal={true}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
