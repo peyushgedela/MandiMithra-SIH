@@ -1,15 +1,16 @@
+import React, { useState } from "react";
 import {
+  Linking,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "../../components/Header";
 import { useLocalSearchParams } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Header from "../../components/Header";
 
 const userInfo = {
   id: 1,
@@ -23,9 +24,14 @@ const onAccept = () => {};
 const onReject = () => {};
 const onCounter = () => {};
 
+const handlePhonePress = (phoneNumber) => {
+  Linking.openURL(`tel:${phoneNumber}`);
+};
+
 const ModifyBidFarmer = () => {
   const { id } = useLocalSearchParams();
-  const [counterBid, setConterBid] = useState(0);
+  const [counterBid, setCounterBid] = useState(0);
+
   return (
     <SafeAreaView className="flex-1 flex-col bg-[#DEEAE1]">
       <Header className="basis-1/12" />
@@ -37,7 +43,14 @@ const ModifyBidFarmer = () => {
           <Text className="font-mregular text-base">
             Buyer Name: {userInfo.name} {"\n"}
             Bid Amount: &#x20B9;{userInfo.bid} {"\n"}
-            Contact: {userInfo.contact} {"\n"}
+            Contact:{" "}
+            <Text
+              onPress={() => handlePhonePress(userInfo.contact)}
+              style={styles.phoneLink}
+            >
+              {userInfo.contact}
+            </Text>{" "}
+            {"\n"}
             Rating: {userInfo.rating}
           </Text>
           <View className="flex flex-row justify-evenly">
@@ -69,7 +82,7 @@ const ModifyBidFarmer = () => {
             <TextInput
               className="w-5/6"
               onChangeText={(value) => {
-                setConterBid(value);
+                setCounterBid(value);
               }}
               placeholder="Counter your price"
               keyboardType="number-pad"
@@ -89,8 +102,6 @@ const ModifyBidFarmer = () => {
   );
 };
 
-export default ModifyBidFarmer;
-
 const styles = StyleSheet.create({
   input: {
     marginBottom: 25,
@@ -103,4 +114,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 8,
   },
+  phoneLink: {
+    color: "blue",
+    textDecorationLine: "underline",
+  },
 });
+
+export default ModifyBidFarmer;
