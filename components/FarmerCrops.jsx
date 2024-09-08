@@ -37,7 +37,12 @@ const fcrops = [
 const renderItem = ({ item }) => (
   <TouchableOpacity
     style={styles.itemContainer}
-    onPress={() => router.push("/bidders", { name: item.name })}
+    onPress={() => {
+      router.push({
+        pathname: "/bidders",
+        params: { name: item.name },
+      });
+    }}
   >
     <View className="p-2 rounded-3xl bg-stone-200 border-2 border-gray-400">
       <Image source={item.img} style={styles.image} />

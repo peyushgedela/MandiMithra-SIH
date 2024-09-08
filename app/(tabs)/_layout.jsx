@@ -8,6 +8,8 @@ const UserTypeLayout = () => {
       <Stack.Screen name={"home"} options={{ headerShown: false }} />
       <Stack.Screen name={"profile"} options={{ headerShown: false }} />
       <Stack.Screen name={"addcrop"} options={{ headerShown: false }} />
+      <Stack.Screen name={"bidders"} options={{ headerShown: false }} />
+      <Stack.Screen name={"modify-bid-farmer"} options={{ headerShown: false }} />
     </Stack>
   );
 };
