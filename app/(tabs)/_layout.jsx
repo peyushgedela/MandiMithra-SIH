@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
-import { Slot, Stack, Tabs } from "expo-router";
+import { Stack } from "expo-router";
 
 const UserTypeLayout = () => {
   return (
