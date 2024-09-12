@@ -36,7 +36,7 @@ const Index = () => {
       </View>
       <View className="flex items-center basis-1/4 mt-4">
         <View className="w-3/4">
-          
+          <View></View>
         </View>
       </View>
     </View>
